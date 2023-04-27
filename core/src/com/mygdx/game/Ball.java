@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 
 public class Ball {
     int x; // X position
@@ -39,70 +40,50 @@ public class Ball {
     }
 
     public void checkCollision(Paddle paddle){
-        if(collidesWith(paddle))
-            color = Color.GREEN;
-        else
-            color = Color.WHITE;
-    }
-
-    public boolean verif(float point, float debut, float fin){
-        for(float i = debut; i< fin; i++){
-            if(i == point)
-                return true;
+        if(collidesWith(paddle)){
+            ySpeed = -ySpeed;
         }
-        return false;
     }
 
-    public Double Distance(float x1, float x2, float y1, float y2){
-        float X = x2 - x1;
-        float Y = y2 - y1;
-        return Math.sqrt(Math.pow(X,2) + Math.pow(Y, 2) );
+    public void checkCollision(Block block){
+        if(collidesWith(block)){
+            ySpeed = -ySpeed;
+            block.destroyed = true;
+        }
     }
+
+
+
     private boolean collidesWith(Paddle paddle){
 
-//        if(  !( ( paddle.x < (x-size) || (paddle.x + paddle.width) < (x-size) ) || (paddle.x > (x + size) || (paddle.x + paddle.width) > (x + size) ) || ( paddle.y < (y-size) && (paddle.y + paddle.height) < (y-size) ) || (paddle.y > (y + size) && (paddle.y + paddle.height) > (y + size))  ) ){
-//            return true;
-//        }
-//        if( paddle.x >= (x - size) && paddle.x <= (x + size) && paddle.y >= (y - size) && paddle.y <= (y + size))
-//            return true;
-//        if( (paddle.x + paddle.width) >= (x - size) && (paddle.x + paddle.width) <= (x + size) && (paddle.y + paddle.height) >= (y - size) && (paddle.y + paddle.height) <= (y + size))
-//            return true;
-//        if( x >= (paddle.x) && x<= (paddle.x + paddle.width) && y >= (paddle.y) && y<= (paddle.y + paddle.height))
-//            return true;
-//        if( (x + size) >= (paddle.x) && (x + size) <= (paddle.x + paddle.width) && (y + size) >= (paddle.y ) && (y + size)<= (paddle.y + paddle.height))
-//            return true;
+        // Trouver le point le plus proche du centre du cercle dans le rectangle
+        float closestX = MathUtils.clamp(x, paddle.x, paddle.x + paddle.width);
+        float closestY = MathUtils.clamp(y, paddle.y, paddle.y + paddle.height);
 
-//        if(paddle.x >= (x- size) && (paddle.x) <= (x + size)  )
-//            return true;
-//        if(verif(paddle.x, x-size, x+size) && verif(paddle.y, y-size, y+size))
-//            return true;
+        // Calculer la distance entre le point le plus proche et le centre du cercle
+        float distanceX = x - closestX;
+        float distanceY = y - closestY;
+        float distanceSquared = distanceX * distanceX + distanceY * distanceY;
 
-//        if((x-size + paddle.x + paddle.width) > paddle.x && ( (x+size + paddle.x + paddle.width) < (paddle.x + paddle.width) ) )
-//            return true;
-//        return false;
-
-        Double distance = Distance(x ,paddle.x + (paddle.width/2) , y, paddle.y + (paddle.height/2) );
-//        if(distance <= (size + x) + paddle.x)
-//            return true;
+        // Vérifier si la distance est inférieure ou égale au rayon du cercle
+        return distanceSquared <= size * size;
 
 
+    }
 
+    private boolean collidesWith(Block block){
 
+        // Trouver le point le plus proche du centre du cercle dans le rectangle
+        float closestX = MathUtils.clamp(x, block.x, block.x + block.width);
+        float closestY = MathUtils.clamp(y, block.y, block.y + block.height);
 
-        if(x + size == paddle.x) {
-            System.out.println("x + size : " + (x + size));
-            System.out.println("paddle.x: " + paddle.x);
-            System.out.println("distance " + distance);
+        // Calculer la distance entre le point le plus proche et le centre du cercle
+        float distanceX = x - closestX;
+        float distanceY = y - closestY;
+        float distanceSquared = distanceX * distanceX + distanceY * distanceY;
 
-            return true;
-        }
-
-//        distance = Distance(x-size/2, paddle.x + paddle.width/2, y -size/2, paddle.y + paddle.height/2 );
-//        distance = Distance(paddle.x + paddle.width / 2 , x)
-//        if(distance < (size/2) + (paddle.width/2))
-//            return true;
-
-        return false;
+        // Vérifier si la distance est inférieure ou égale au rayon du cercle
+        return distanceSquared <= size * size;
 
 
     }

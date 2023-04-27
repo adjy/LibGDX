@@ -18,7 +18,7 @@ public class Paddle {
     public void update(){
         float screenHeight = Gdx.graphics.getHeight();
         float paddleY = screenHeight - Gdx.input.getY() - this.height/2; // Calculate paddle y position based on mouse position
-        y = paddleY;
+//        y = paddleY;
         x = Gdx.input.getX() - (this.width/2); // this returns the x position of the cursor in pixels;
     }
 
