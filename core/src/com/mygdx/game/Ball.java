@@ -54,7 +54,9 @@ public class Ball {
 
 
 
-    private boolean collidesWith(Paddle paddle){
+
+
+    public boolean collidesWith(Paddle paddle){
 
         // Trouver le point le plus proche du centre du cercle dans le rectangle
         float closestX = MathUtils.clamp(x, paddle.x, paddle.x + paddle.width);
