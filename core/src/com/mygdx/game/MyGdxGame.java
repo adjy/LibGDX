@@ -75,7 +75,7 @@ public class MyGdxGame extends ApplicationAdapter{
             }
         }
 
-        if(!ball.collidesWith(sol)) {
+//        if(!ball.collidesWith(sol)) {
             ball.update();
             ball.draw(shape);
             ball.checkCollision(paddle);
@@ -83,7 +83,7 @@ public class MyGdxGame extends ApplicationAdapter{
             paddle.update();
             paddle.draw(shape);
             sol.draw(shape);
-        }
+//        }
 //        else{
 //            ball.draw(shape);
 //            paddle.draw(shape);

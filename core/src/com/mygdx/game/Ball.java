@@ -1,6 +1,9 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -14,12 +17,31 @@ public class Ball {
     Color color = Color.WHITE;
 
 
+    private Sound sound;
+
+    public void create() {
+        sound = Gdx.audio.newSound(Gdx.files.internal("music/song.mp3"));
+    }
+
+    public void playSound() {
+        sound.play();
+    }
+
+    public void dispose() {
+        sound.dispose();
+    }
+
+
+
+
     public Ball(int x, int y, int size, int xSpeed, int ySpeed){
         this.x = x;
         this.y = y;
         this.size = size;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
+        create();
+
     }
 
     public void update(){
@@ -42,6 +64,8 @@ public class Ball {
     public void checkCollision(Paddle paddle){
         if(collidesWith(paddle)){
             ySpeed = -ySpeed;
+            playSound();
+
         }
     }
 
